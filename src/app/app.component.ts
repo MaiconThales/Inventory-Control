@@ -13,10 +13,13 @@ export class AppComponent implements OnInit {
 
   session = this.magicLinkService.session;
 
-  constructor(private magicLinkService: MagicLinkService) {}
+  constructor(private magicLinkService: MagicLinkService) { }
 
   ngOnInit(): void {
-    this.magicLinkService.authChanges((_, session) => (this.session = session));
+    this.magicLinkService.authChanges((_, session) => {
+      this.session = session;
+      console.log("Data1: ", this.session)
+    });
   }
 
 
