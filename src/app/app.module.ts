@@ -5,14 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HelloComponent, AuthComponent, AccountComponent } from './components';
+import { HelloComponent, AuthComponent, AccountComponent, ProgressFeedbackComponent } from './components';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ProgressFeedbackComponent } from './components/shared/progress-feedback/progress-feedback.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,8 @@ import { ProgressFeedbackComponent } from './components/shared/progress-feedback
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient, User } from '@supabase/supabase-js'
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { environment as e } from 'src/environments/environment';
 import { Profile } from 'src/app/models';
+import { SnackBarService } from 'src/app/services';
 
 
 @Injectable({
@@ -14,8 +14,8 @@ export class MagicLinkService {
   private supabase!: SupabaseClient;
   _session: AuthSession | null = null;
 
-  constructor(private snackBar: MatSnackBar) {
-    this.supabase = createClient(e.supabaseUrl, e.supabaseKey)
+  constructor(private snackBarService: SnackBarService) {
+    this.supabase = createClient(e.supabaseUrl, e.supabaseKey);
   }
 
   get session(): AuthSession | null {
@@ -42,7 +42,7 @@ export class MagicLinkService {
       }
     } catch (error) {
       if (error instanceof Error) {
-        this.openSnackBar(error.message, "Ok");
+        this.snackBarService.openSnackBar(error.message, "Ok");
       }
     }
     return { data, error, status };
@@ -55,15 +55,15 @@ export class MagicLinkService {
   async signIn(email: string): Promise<string | undefined> {
     let info = await this.supabase.auth.signInWithOtp({ email });
     if (info.error?.message != undefined) {
-      this.openSnackBar(info.error?.message, "Ok");
+      this.snackBarService.openSnackBar(info.error?.message, "Ok");
     } else {
-      this.openSnackBar("E-mail send", "Ok");
+      this.snackBarService.openSnackBar("E-mail send", "Ok");
     }
     return info.error?.message;
   }
 
   async signOut(): Promise<any> {
-    this.openSnackBar("Logout", "Ok");
+    this.snackBarService.openSnackBar("Logout", "Ok");
     return await this.supabase.auth.signOut();
   }
 
@@ -82,13 +82,6 @@ export class MagicLinkService {
 
   uploadAvatar(filePath: string, file: File) {
     return this.supabase.storage.from('avatars').upload(filePath, file)
-  }
-
-  private openSnackBar(msg: string, txtBtn: string): void {
-    this.snackBar.open(msg, txtBtn, {
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-    });
   }
 
 }
