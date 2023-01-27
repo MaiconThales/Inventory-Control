@@ -1,0 +1,1 @@
+export * from './magic-link/magic-link.service';
