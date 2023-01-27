@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient, User } from '@supabase/supabase-js'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { environment as e } from 'src/environments/environment';
 import { Profile } from 'src/app/models';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class MagicLinkService {
   private supabase!: SupabaseClient;
   _session: AuthSession | null = null;
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar) {
     this.supabase = createClient(e.supabaseUrl, e.supabaseKey)
   }
 
@@ -35,8 +37,14 @@ export class MagicLinkService {
     return this.supabase.auth.onAuthStateChange(callback)
   }
 
-  signIn(email: string) {
-    return this.supabase.auth.signInWithOtp({ email })
+  async signIn(email: string): Promise<string | undefined> {
+    let info = await this.supabase.auth.signInWithOtp({ email });
+    if(info.error?.message != undefined) {
+      this.openSnackBar(info.error?.message, "Ok");
+    } else {
+      this.openSnackBar("E-mail send", "Ok");
+    }
+    return info.error?.message;
   }
 
   signOut() {
@@ -58,6 +66,13 @@ export class MagicLinkService {
 
   uploadAvatar(filePath: string, file: File) {
     return this.supabase.storage.from('avatars').upload(filePath, file)
+  }
+
+  openSnackBar(msg: string, txtBtn: string): void {
+    this.snackBar.open(msg, txtBtn, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+    });
   }
 
 }

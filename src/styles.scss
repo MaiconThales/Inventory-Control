@@ -37,3 +37,12 @@ $inventory-control-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.spinner {
+  top: 10%;
+  position: absolute;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
