@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MyErrorStateMatcher } from 'src/app/components/shared';
-import { EmailPasswordService, MagicLinkService } from 'src/app/services';
+import { EmailPasswordService, MagicLinkService, ManagementTokenService } from 'src/app/services';
 
 @Component({
   selector: 'app-auth',
@@ -26,11 +26,11 @@ export class AuthComponent implements OnInit {
   constructor(
     private magicLinkService: MagicLinkService, 
     private emailPasswordService: EmailPasswordService,
-    private router: Router) { }
+    private router: Router,
+    private token: ManagementTokenService) { }
 
   ngOnInit(): void {
-    let local = localStorage.getItem('@app-stock:user');
-    if(local != undefined) {
+    if(this.token.isValid()) {
       this.router.navigateByUrl('/admin/dashboard');
     }
   }
@@ -66,7 +66,6 @@ export class AuthComponent implements OnInit {
     let password = this.classicAuthLogin.controls['passwordFormControl'].value as string;
     this.emailPasswordService.signIn(email, password).then((value) => {
       if(value.data.user != null) {
-         localStorage.setItem('@app-stock:user', value.data.user.email);
          this.router.navigateByUrl('/admin/dashboard');
       }
     }).finally(() => {

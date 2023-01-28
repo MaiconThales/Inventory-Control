@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthSession } from '@supabase/supabase-js';
 
 import { Profile } from 'src/app/models';
-import { MagicLinkService } from 'src/app/services';
+import { MagicLinkService, SupabaseSharedService } from 'src/app/services';
 
 @Component({
   selector: 'app-account',
@@ -22,7 +22,7 @@ export class AccountComponent implements OnInit {
     avatar_url: new FormControl('')
   });
 
-  constructor(private magicLinkService: MagicLinkService, private router: Router) { }
+  constructor(private magicLinkService: MagicLinkService, private router: Router, private shared: SupabaseSharedService) { }
 
   ngOnInit(): void {
     this.getProfile();
@@ -37,9 +37,7 @@ export class AccountComponent implements OnInit {
   }
 
   signOut(): void {
-    this.magicLinkService.signOut().then(() => {}).finally(() => {
-      this.router.navigate(['/auth']);
-    });
+    this.shared.singOut();
   }
 
 }

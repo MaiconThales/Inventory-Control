@@ -3,7 +3,7 @@ import { AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient, Us
 
 import { environment as e } from 'src/environments/environment';
 import { Profile } from 'src/app/models';
-import { SnackBarService } from 'src/app/services';
+import { SnackBarService, SupabaseSharedService } from 'src/app/services';
 
 
 @Injectable({
@@ -14,7 +14,7 @@ export class MagicLinkService {
   private supabase!: SupabaseClient;
   _session: AuthSession | null = null;
 
-  constructor(private snackBarService: SnackBarService) {
+  constructor(private snackBarService: SnackBarService, private shared: SupabaseSharedService) {
     this.supabase = createClient(e.supabaseUrl, e.supabaseKey);
   }
 
@@ -36,15 +36,7 @@ export class MagicLinkService {
       .select(`username, website, avatar_url`)
       .eq('id', user.id)
       .single();
-    try {
-      if (error && status !== 406) {
-        throw error
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        this.snackBarService.openSnackBar(error.message, "Ok");
-      }
-    }
+    this.shared.handleErrorsProfile(error, status);
     return { data, error, status };
   }
 
@@ -60,11 +52,6 @@ export class MagicLinkService {
       this.snackBarService.openSnackBar("E-mail send", "Ok");
     }
     return info.error?.message;
-  }
-
-  async signOut(): Promise<any> {
-    this.snackBarService.openSnackBar("Logout", "Ok");
-    return await this.supabase.auth.signOut();
   }
 
   updateProfile(profile: Profile) {
