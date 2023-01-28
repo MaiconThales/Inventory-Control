@@ -59,6 +59,7 @@
           <mat-form-field class="example-full-width">
             <mat-label>Email</mat-label>
             <input
+              autocomplete="username"
               type="email"
               matInput
               formControlName="emailFormControl"
@@ -91,11 +92,15 @@
           <mat-form-field class="example-full-width">
             <mat-label>Password</mat-label>
             <input
-              type="current-password"
+              autocomplete="current-password"
               matInput
+              [type]="hide ? 'password' : 'text'"
               formControlName="passwordFormControl"
               [errorStateMatcher]="matcher"
             />
+            <mat-icon matSuffix (click)="hide = !hide">{{
+              hide ? "visibility_off" : "visibility"
+            }}</mat-icon>
             <mat-error
               *ngIf="
                 classicAuthLogin.controls['emailFormControl'].hasError(
@@ -115,7 +120,14 @@
           >
             Login
           </button>
-          <button mat-stroked-button type="button" color="primary" (click)="createUserClassic()">Create user</button>
+          <button
+            mat-stroked-button
+            type="button"
+            color="primary"
+            (click)="createUserClassic()"
+          >
+            Create user
+          </button>
         </form>
       </div>
     </mat-tab>

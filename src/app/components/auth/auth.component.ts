@@ -13,6 +13,7 @@ import { EmailPasswordService, MagicLinkService } from 'src/app/services';
 export class AuthComponent implements OnInit {
 
   isValueProgress: boolean = false;
+  hide: boolean = true;
   matcher = new MyErrorStateMatcher();
   magicAuthLogin = new FormGroup({
     emailFormControl: new FormControl('', [Validators.required, Validators.email])
