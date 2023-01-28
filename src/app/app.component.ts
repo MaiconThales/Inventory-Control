@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.magicLinkService.authChanges((_, session) => {
       this.session = session;
-      console.log("Data1: ", this.session)
     });
   }
 

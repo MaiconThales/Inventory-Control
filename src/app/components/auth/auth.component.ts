@@ -29,9 +29,10 @@ export class AuthComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.magicAuthLogin = new FormGroup({
-      emailFormControl: new FormControl('', [Validators.required, Validators.email])
-    });
+    let local = localStorage.getItem('@app-stock:user');
+    if(local != undefined) {
+      this.router.navigateByUrl('/admin/dashboard');
+    }
   }
 
   magicLogin(): void {
@@ -51,7 +52,6 @@ export class AuthComponent implements OnInit {
     let email = this.classicAuthLogin.controls['emailFormControl'].value as string;
     let password = this.classicAuthLogin.controls['passwordFormControl'].value as string;
     this.emailPasswordService.signUp(email, password).then((value) => {
-      console.log("Create: ", value.data.user);
       this.isValueProgress = false;
     });
 
@@ -65,11 +65,9 @@ export class AuthComponent implements OnInit {
     let email = this.classicAuthLogin.controls['emailFormControl'].value as string;
     let password = this.classicAuthLogin.controls['passwordFormControl'].value as string;
     this.emailPasswordService.signIn(email, password).then((value) => {
-      console.log("Login: ", value)
       if(value.data.user != null) {
          localStorage.setItem('@app-stock:user', value.data.user.email);
-         this.router.navigateByUrl('/hello');
-         //this.router.navigateByUrl('/admin/dashboard/home');
+         this.router.navigateByUrl('/admin/dashboard');
       }
     }).finally(() => {
       this.classicAuthLogin.reset();
