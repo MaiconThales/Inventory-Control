@@ -1,0 +1,40 @@
+<mat-drawer-container class="example-container" [hasBackdrop]="false" autosize>
+  <mat-drawer #drawer [mode]="'push'">I'm a drawer</mat-drawer>
+  <mat-drawer-content>
+    <!--NavBar-->
+    <div *ngIf="showToolBar">
+      <mat-toolbar color="primary">
+        <button
+          mat-icon-button
+          class="example-icon"
+          aria-label="Example icon-button with menu icon"
+          matTooltip="Open menu"
+          [matTooltipShowDelay]="1"
+          [matTooltipHideDelay]="500"
+          [matTooltipPosition]="'right'"
+          (click)="drawer.toggle()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>Inventory Control</span>
+        <span class="menu"></span>
+
+        <button
+          mat-icon-button
+          class="example-icon"
+          aria-label="Example icon-button with share icon"
+          matTooltip="Logout"
+          [matTooltipShowDelay]="1"
+          [matTooltipHideDelay]="500"
+          [matTooltipPosition]="'left'"
+          (click)="signOut()"
+        >
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
+      </mat-toolbar>
+    </div>
+
+    <!--Content-->
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

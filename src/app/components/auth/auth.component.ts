@@ -24,13 +24,13 @@ export class AuthComponent implements OnInit {
   });
 
   constructor(
-    private magicLinkService: MagicLinkService, 
+    private magicLinkService: MagicLinkService,
     private emailPasswordService: EmailPasswordService,
     private router: Router,
     private token: ManagementTokenService) { }
 
   ngOnInit(): void {
-    if(this.token.isValid()) {
+    if (this.token.isValid()) {
       this.router.navigateByUrl('/admin/dashboard');
     }
   }
@@ -65,8 +65,9 @@ export class AuthComponent implements OnInit {
     let email = this.classicAuthLogin.controls['emailFormControl'].value as string;
     let password = this.classicAuthLogin.controls['passwordFormControl'].value as string;
     this.emailPasswordService.signIn(email, password).then((value) => {
-      if(value.data.user != null) {
-         this.router.navigateByUrl('/admin/dashboard');
+      if (value.data.user != null) {
+        this.router.navigateByUrl('/admin/dashboard');
+        location.reload();
       }
     }).finally(() => {
       this.classicAuthLogin.reset();
