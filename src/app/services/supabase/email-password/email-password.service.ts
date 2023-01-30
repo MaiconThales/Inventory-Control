@@ -12,7 +12,7 @@ export class EmailPasswordService {
   private supabase!: SupabaseClient;
 
   constructor(private shared: SupabaseSharedService) {
-    this.supabase = createClient(e.supabaseUrl, e.supabaseKey)
+    this.supabase = createClient(e.supabaseUrl, e.supabaseKey);
   }
 
   async signUp(email: string, password: string): Promise<any> {

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MyErrorStateMatcher } from 'src/app/components/shared';
-import { EmailPasswordService, MagicLinkService, ManagementTokenService } from 'src/app/services';
+import { EmailPasswordService, MagicLinkService, ManagementTokenService, SocialMediaLoginService } from 'src/app/services';
 
 @Component({
   selector: 'app-auth',
@@ -27,7 +27,8 @@ export class AuthComponent implements OnInit {
     private magicLinkService: MagicLinkService,
     private emailPasswordService: EmailPasswordService,
     private router: Router,
-    private token: ManagementTokenService) { }
+    private token: ManagementTokenService,
+    private socialLogin: SocialMediaLoginService) { }
 
   ngOnInit(): void {
     if (this.token.isValid()) {
@@ -73,6 +74,12 @@ export class AuthComponent implements OnInit {
       this.classicAuthLogin.reset();
       this.classicAuthLogin.controls.emailFormControl.setErrors(null);
       this.classicAuthLogin.controls.passwordFormControl.setErrors(null);
+    });
+  }
+
+  loginWithSocialMedia(type: string): void {
+    this.socialLogin.signIn(type).then((value) => {
+      console.log(value)
     });
   }
 
