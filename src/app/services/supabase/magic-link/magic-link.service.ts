@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient, User } from '@supabase/supabase-js'
+import { createClient, SupabaseClient, User } from '@supabase/supabase-js'
 
 import { environment as e } from 'src/environments/environment';
 import { Profile } from 'src/app/models';
@@ -12,22 +12,9 @@ import { SnackBarService, SupabaseSharedService } from 'src/app/services';
 export class MagicLinkService {
 
   private supabase!: SupabaseClient;
-  _session: AuthSession | null = null;
 
   constructor(private snackBarService: SnackBarService, private shared: SupabaseSharedService) {
     this.supabase = createClient(e.supabaseUrl, e.supabaseKey);
-  }
-
-  get session(): AuthSession | null {
-    this.supabase.auth.getSession().then(({ data }) => {
-      this._session = data.session;
-    });
-
-    return this._session
-  }
-
-  async getSession(): Promise<any> {
-    return this.supabase.auth.getSession();
   }
 
   async profile(user: User): Promise<any> {
@@ -40,15 +27,9 @@ export class MagicLinkService {
     return { data, error, status };
   }
 
-  authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void): any {
-    return this.supabase.auth.onAuthStateChange(callback);
-  }
-
   async signIn(email: string): Promise<string | undefined> {
     let info = await this.supabase.auth.signInWithOtp({
-      email, options: {
-        emailRedirectTo: 'http://localhost:4200/admin/dashboard',
-      },
+      email
     });
     if (info.error?.message != undefined) {
       this.snackBarService.openSnackBar(info.error?.message, "Ok");

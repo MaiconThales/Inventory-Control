@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MagicLinkService } from './services'
+import { SupabaseSharedService } from './services'
 
 @Component({
   selector: 'app-root',
@@ -11,12 +11,12 @@ export class AppComponent implements OnInit {
 
   title = 'inventory-control';
 
-  session = this.magicLinkService.session;
+  session = this.supabase.session;
 
-  constructor(private magicLinkService: MagicLinkService) { }
+  constructor(private supabase: SupabaseSharedService) { }
 
   ngOnInit(): void {
-    this.magicLinkService.authChanges((_, session) => {
+    this.supabase.authChanges((_, session) => {
       this.session = session;
     });
   }

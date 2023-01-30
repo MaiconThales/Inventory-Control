@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient } from '@supabase/supabase-js';
 import { SnackBarService } from 'src/app/services';
 import { environment as e } from 'src/environments/environment';
 
@@ -10,9 +10,25 @@ import { environment as e } from 'src/environments/environment';
 export class SupabaseSharedService {
 
   private supabase!: SupabaseClient;
+  _session: AuthSession | null = null;
 
   constructor(private snackBarService: SnackBarService, private router: Router) {
     this.supabase = createClient(e.supabaseUrl, e.supabaseKey);
+  }
+
+  get session(): AuthSession | null {
+    this.supabase.auth.getSession().then(({ data }) => {
+      this._session = data.session;
+    });
+    return this._session
+  }
+
+  async getSession(): Promise<any> {
+    return this.supabase.auth.getSession();
+  }
+
+  authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void): any {
+    return this.supabase.auth.onAuthStateChange(callback);
   }
 
   singOut(): void {
