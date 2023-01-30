@@ -1,5 +1,8 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="false" autosize>
-  <mat-drawer #drawer [mode]="'push'">I'm a drawer</mat-drawer>
+  <mat-drawer #drawer [mode]="'side'">
+    <button mat-button color="primary">Primary</button>
+    <button mat-button color="primary">Primary</button>
+  </mat-drawer>
   <mat-drawer-content>
     <!--NavBar-->
     <div *ngIf="showToolBar">
