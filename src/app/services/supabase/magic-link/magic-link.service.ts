@@ -29,7 +29,9 @@ export class MagicLinkService {
 
   async signIn(email: string): Promise<string | undefined> {
     let info = await this.supabase.auth.signInWithOtp({
-      email
+      email, options: {
+        emailRedirectTo: e.redirecTo,
+      },
     });
     if (info.error?.message != undefined) {
       this.snackBarService.openSnackBar(info.error?.message, "Ok");

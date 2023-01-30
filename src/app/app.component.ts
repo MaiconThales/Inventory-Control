@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SupabaseSharedService } from './services'
+import { IconsService, SupabaseSharedService } from './services'
 
 @Component({
   selector: 'app-root',
@@ -13,14 +13,13 @@ export class AppComponent implements OnInit {
 
   session = this.supabase.session;
 
-  constructor(private supabase: SupabaseSharedService) { }
+  constructor(private supabase: SupabaseSharedService, private icon: IconsService) {}
 
   ngOnInit(): void {
+    this.icon.createIcons();
     this.supabase.authChanges((_, session) => {
-      console.log("AuthChange: ", session);
       this.session = session;
     });
   }
-
 
 }

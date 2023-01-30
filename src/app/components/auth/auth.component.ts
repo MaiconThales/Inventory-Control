@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MyErrorStateMatcher } from 'src/app/components/shared';
-import { EmailPasswordService, MagicLinkService, ManagementTokenService, SocialMediaLoginService } from 'src/app/services';
+import { EmailPasswordService, MagicLinkService, ManagementTokenService, SocialMediaLoginService, SupabaseSharedService } from 'src/app/services';
 
 @Component({
   selector: 'app-auth',
@@ -39,9 +39,7 @@ export class AuthComponent implements OnInit {
   magicLogin(): void {
     this.isValueProgress = true;
     let email = this.magicAuthLogin.controls['emailFormControl'].value as string;
-    this.magicLinkService.signIn(email).then(() => {
-      this.isValueProgress = false;
-    }).finally(() => {
+    this.magicLinkService.signIn(email).then(() => { }).finally(() => {
       this.magicAuthLogin.reset();
       this.magicAuthLogin.controls.emailFormControl.setErrors(null);
       this.isValueProgress = false;
@@ -52,7 +50,7 @@ export class AuthComponent implements OnInit {
     this.isValueProgress = true;
     let email = this.classicAuthLogin.controls['emailFormControl'].value as string;
     let password = this.classicAuthLogin.controls['passwordFormControl'].value as string;
-    this.emailPasswordService.signUp(email, password).then((value) => {
+    this.emailPasswordService.signUp(email, password).then(() => { }).finally(() => {
       this.isValueProgress = false;
     });
 
@@ -78,9 +76,8 @@ export class AuthComponent implements OnInit {
   }
 
   loginWithSocialMedia(type: string): void {
-    this.socialLogin.signIn(type).then((value) => {
-      console.log(value)
-    });
+    this.isValueProgress = true;
+    this.socialLogin.signIn(type).then(() => {});
   }
 
 }

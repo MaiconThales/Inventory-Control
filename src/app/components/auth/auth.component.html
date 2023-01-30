@@ -128,15 +128,20 @@
           >
             Create user
           </button>
-          <button
-            mat-stroked-button
-            type="button"
-            color="primary"
-            (click)="loginWithSocialMedia('github')"
-          >
-            Login With GitHub
-          </button>
         </form>
+
+        <button
+          mat-icon-button
+          class="example-icon"
+          aria-label="Example icon-button with share icon"
+          matTooltip="Login With Github"
+          [matTooltipShowDelay]="1"
+          [matTooltipHideDelay]="500"
+          [matTooltipPosition]="'below'"
+          (click)="loginWithSocialMedia('github')"
+        >
+          <mat-icon svgIcon="github"></mat-icon>
+        </button>
       </div>
     </mat-tab>
   </mat-tab-group>

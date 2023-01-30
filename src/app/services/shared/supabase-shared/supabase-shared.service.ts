@@ -28,7 +28,8 @@ export class SupabaseSharedService {
   }
 
   authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void): any {
-    return this.supabase.auth.onAuthStateChange(callback);
+    let { data } = this.supabase.auth.onAuthStateChange(callback);
+    return data;
   }
 
   singOut(): void {
