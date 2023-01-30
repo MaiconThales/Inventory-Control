@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 
 import { ManagementTokenService, SupabaseSharedService } from 'src/app/services';
 
@@ -10,11 +12,30 @@ import { ManagementTokenService, SupabaseSharedService } from 'src/app/services'
 export class MenuComponent implements OnInit {
 
   showToolBar: boolean = false;
+  toggleMenu: boolean = true;
 
-  constructor(private shared: SupabaseSharedService, private token: ManagementTokenService) { }
+  constructor(
+    private shared: SupabaseSharedService,
+    private token: ManagementTokenService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.showToolBar = this.token.isValid();
+  }
+
+  toogleMenu(): void {
+    this.toggleMenu = !this.toggleMenu;
+  }
+
+  redirecTo(type: string): void {
+    switch (type) {
+      case 'dashboard':
+        this.router.navigateByUrl('admin/dashboard');
+        break;
+      case 'account':
+        this.router.navigateByUrl('account');
+        break;
+    }
   }
 
   signOut(): void {

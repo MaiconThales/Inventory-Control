@@ -1,7 +1,11 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="false" autosize>
   <mat-drawer #drawer [mode]="'side'">
-    <button mat-button color="primary">Primary</button>
-    <button mat-button color="primary">Primary</button>
+    <div class="example-ripple-container mat-elevation-z4" matRipple (click)="redirecTo('dashboard')">
+      Dashboard
+    </div>
+    <div class="example-ripple-container mat-elevation-z4" matRipple (click)="redirecTo('account')">
+      Account
+    </div>
   </mat-drawer>
   <mat-drawer-content>
     <!--NavBar-->
@@ -13,11 +17,12 @@
           aria-label="Example icon-button with menu icon"
           matTooltip="Open menu"
           [matTooltipShowDelay]="1"
-          [matTooltipHideDelay]="500"
+          [matTooltipHideDelay]="5"
           [matTooltipPosition]="'right'"
-          (click)="drawer.toggle()"
+          (click)="drawer.toggle(); toogleMenu();"
         >
-          <mat-icon>menu</mat-icon>
+          <mat-icon *ngIf="toggleMenu">menu</mat-icon>
+          <mat-icon *ngIf="!toggleMenu">close</mat-icon>
         </button>
         <span>Inventory Control</span>
         <span class="menu"></span>
@@ -30,7 +35,7 @@
           [matTooltipShowDelay]="1"
           [matTooltipHideDelay]="500"
           [matTooltipPosition]="'left'"
-          (click)="signOut()"
+          (click)="signOut(); drawer.close()"
         >
           <mat-icon>exit_to_app</mat-icon>
         </button>
