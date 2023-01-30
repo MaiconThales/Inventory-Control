@@ -142,6 +142,18 @@
         >
           <mat-icon svgIcon="github"></mat-icon>
         </button>
+        <button
+          mat-icon-button
+          class="example-icon"
+          aria-label="Example icon-button with share icon"
+          matTooltip="Login With Google"
+          [matTooltipShowDelay]="1"
+          [matTooltipHideDelay]="500"
+          [matTooltipPosition]="'below'"
+          (click)="loginWithSocialMedia('google')"
+        >
+          <mat-icon svgIcon="google"></mat-icon>
+        </button>
       </div>
     </mat-tab>
   </mat-tab-group>

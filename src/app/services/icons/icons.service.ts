@@ -17,6 +17,11 @@ export class IconsService {
       "github",
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/icons8-github.svg')
     );
+    //Icon Google
+    this.matIconRegistry.addSvgIcon(
+      "google",
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/icons8-google-logo.svg')
+    );
   }
 
 }
